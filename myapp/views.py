@@ -14,6 +14,8 @@ def index_view(requests):
     return render(requests, 'myapp/index.html')
 
 
+
+
 @api_view(['GET', 'POST'])
 def user_list(request):
     # Handle GET request (retrieve users)
