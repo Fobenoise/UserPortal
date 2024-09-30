@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .btn-edit {
+            background-color: #f39c12;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit User List</h1>
+
+    <!-- Form to Add New User -->
+    <form method="POST" action="{% url 'user-edit' %}">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <button type="submit" class="btn">Add User</button>
+    </form>
+
+    <!-- Display List of Users with Edit and Delete buttons -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <form method="POST" action="{% url 'update-user' user.id %}">
+                    {% csrf_token %}
+                    <td>{{ user.id }}</td>
+                    <td><input type="text" name="name" value="{{ user.name }}" required></td>
+                    <td><input type="email" name="email" value="{{ user.email }}" required></td>
+                    <td>
+                        <button type="submit" class="btn btn-edit">Save</button>
+                    </td>
+                </form>
+                <td>
+                    <form method="POST" action="{% url 'delete-user' user.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No users available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
