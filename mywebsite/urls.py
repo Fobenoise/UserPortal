@@ -19,7 +19,7 @@ from django.urls import path
 from django.contrib import admin
 from django.urls import path
 from myapp.views import user_list
-from myapp.views import user_table_view, index_view, user_edit_view, delete_user_view, update_user_view
+from myapp.views import user_table_view, index_view, user_edit_view, delete_user_view, update_user_view, roles_view
 
 
 urlpatterns = [

@@ -14,8 +14,6 @@ def index_view(requests):
     return render(requests, 'myapp/index.html')
 
 
-
-
 @api_view(['GET', 'POST'])
 def user_list(request):
     # Handle GET request (retrieve users)
@@ -36,6 +34,7 @@ def user_list(request):
 def user_table_view(request):
     users = UserProfile.objects.all()  # Fetch all users from the database
     return render(request, 'myapp/user_list.html', {'users': users})
+
 
 
 def user_edit_view(request):
