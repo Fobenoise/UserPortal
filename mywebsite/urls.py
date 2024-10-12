@@ -19,7 +19,7 @@ from django.urls import path
 from django.contrib import admin
 from django.urls import path
 from myapp.views import user_list
-from myapp.views import user_table_view, index_view, user_edit_view, delete_user_view, update_user_view
+from myapp.views import user_table_view, index_view, user_edit_view, delete_user_view, update_user_view, user_roles
 
 
 urlpatterns = [
@@ -31,4 +31,5 @@ urlpatterns = [
     path('users/edit/', user_edit_view, name='user-edit'),  # Edit user list page
     path('users/delete/<int:user_id>/', delete_user_view, name='delete-user'),  # Delete user
     path('users/update/<int:user_id>/', update_user_view, name='update-user'),  # Update user
+    path('roles/', user_roles, name='user-roles')
 ]

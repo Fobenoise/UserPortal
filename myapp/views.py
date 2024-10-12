@@ -16,16 +16,17 @@ def index_view(requests):
 
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def user_list(request):
     # Handle GET request (retrieve users)
-    if request.method == 'GET':
-        users = UserProfile.objects.all()
-        serializer = UserProfileSerializer(users, many=True)
-        return Response(serializer.data)
+    # if request.method == 'GET':
+    #     return
+        #users = UserProfile.objects.all()
+        #serializer = UserProfileSerializer(users, many=True)
+        #return Response(serializer.data)
 
     # Handle POST request (add a new user)
-    elif request.method == 'POST':
+    # elif request.method == 'POST':
         serializer = UserProfileSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -82,3 +83,16 @@ def delete_user_view(request, user_id):
     user = get_object_or_404(UserProfile, id=user_id)
     user.delete()
     return redirect('user-edit')
+
+def user_roles(request):
+    myroles = [
+        {
+            "id": "1",
+            "name": "Admin"
+        },
+        {
+            "id": "2",
+            "name": "Standard"
+        }
+    ]
+    return render(request, 'myapp/roles_list.html', {'roles': myroles})

@@ -10,6 +10,9 @@
             text-align: center;
             margin-top: 50px;
         }
+        .button-container{
+            text-align: center; /* Center the content in the container */
+        }
         .btn {
             display: inline-block;
             padding: 10px 20px;
@@ -28,10 +31,13 @@
 </head>
 <body>
     <h1>Welcome to the Main Page</h1>
-    <div>
+    <div class="button-container">
         <a href="{% url 'user-table' %}" class="btn">View Users</a>
         <a href="{% url 'user-edit' %}" class="btn">Edit User List</a>
         <a href="/admin/" class="btn">Go to Admin</a>
+    </div>
+    <div class="button-container">
+        <a href="{% url 'user-roles' %}" class="btn">View Roles</a>
     </div>
 </body>
 </html>
