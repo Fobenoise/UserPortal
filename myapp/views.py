@@ -86,17 +86,9 @@ def delete_user_view(request, user_id):
     return redirect('user-edit')
 
 def user_roles(request):
-    myroles = [
-        {
-            "id": "1",
-            "name": "Admin"
-        },
-        {
-            "id": "2",
-            "name": "Standard"
-        }
-    ]
-    return render(request, 'myapp/roles_list.html', {'roles': myroles})
+    roles = RoleProfile.objects.all()  # Fetch all users from the database
+    return render(request, 'myapp/roles_list.html', {'roles': roles})
+    # return render(request, 'myapp/roles_list.html', {'roles': myroles})
 
 def role_edit_view(request):
     if request.method == 'POST':
