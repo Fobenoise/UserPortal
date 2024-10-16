@@ -10,7 +10,13 @@ class UserProfile(models.Model):
         return self.name
 
 
-# class Role(models.Model):
+class RoleProfile(models.Model):
+    name = models.CharField(max_length=100)
+            
+    def __str__(self):
+        return self.name
+    
+# class UserRoles(models.Model):
 #     ROLE_CHOICES = [
 #         ('admin', 'Admin'),
 #         ('standard', 'Standard User'),
@@ -25,7 +31,4 @@ class UserProfile(models.Model):
 #     class Meta:
 #         # Specify that the model belongs to the 'roles' app and set the table name
 #         db_table = 'role'
-#         app_label = 'roles'
-
-
-
+#         app_label = 'roles
