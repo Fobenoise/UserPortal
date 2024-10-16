@@ -4,7 +4,7 @@
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit User List</title>
+    <title>Edit Role List</title>
     <style>
         table {
             width: 100%;
@@ -42,16 +42,14 @@
     </style>
 </head>
 <body>
-    <h1>Edit User List</h1>
+    <h1>Edit Role List</h1>
 
     <!-- Form to Add New User -->
-    <form method="POST" action="{% url 'user-edit' %}">
+    <form method="POST" action="{% url 'role-edit' %}">
         {% csrf_token %}
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <button type="submit" class="btn">Add User</button>
+        <input type="text" id="name" name="name" required>        
+        <button type="submit" class="btn">Add Role</button>
     </form>
 
     <!-- Display List of Users with Edit and Delete buttons -->
@@ -59,25 +57,23 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Role</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for user in users %}
+            {% for role in roles %}
             <tr>
-                <form method="POST" action="{% url 'update-user' user.id %}">
+                <form method="POST" action="{% url 'update-role' role.id %}">
                     {% csrf_token %}
-                    <td>{{ user.id }}</td>
-                    <td><input type="text" name="name" value="{{ user.name }}" required></td>
-                    <td><input type="email" name="email" value="{{ user.email }}" required></td>
+                    <td>{{ role.id }}</td>
+                    <td><input type="text" name="name" value="{{ role.name }}" required></td>
                     <td>
                         <button type="submit" class="btn btn-edit">Save</button>
                     </td>
                 </form>
                 <td>
-                    <form method="POST" action="{% url 'delete-user' user.id %}">
+                    <form method="POST" action="{% url 'delete-role' role.id %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
@@ -85,7 +81,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="4">No users available.</td>
+                <td colspan="4">No role available.</td>
             </tr>
             {% endfor %}
         </tbody>

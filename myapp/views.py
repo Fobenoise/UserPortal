@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserProfileSerializer
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import UserProfile
+from .models import UserProfile, RoleProfile
 from django.views.decorators.http import require_POST
 
 
@@ -97,3 +97,27 @@ def user_roles(request):
         }
     ]
     return render(request, 'myapp/roles_list.html', {'roles': myroles})
+
+def role_edit_view(request):
+    if request.method == 'POST':
+        # Add a new user
+        name = request.POST.get('name')
+        if name:
+            RoleProfile.objects.create(name=name)
+            return redirect('role-edit')  # Redirect to the same page after adding
+
+    roles = RoleProfile.objects.all()
+    return render(request, 'myapp/role_edit.html', {'roles': roles})
+
+@require_POST
+def update_role_view(request, role_id):
+    role = get_object_or_404(RoleProfile, id=role_id)
+    role.name = request.POST.get('name')
+    role.save()
+    return redirect('role-edit')
+
+@require_POST
+def delete_role_view(request, role_id):
+    role = get_object_or_404(RoleProfile, id=role_id)
+    role.delete()
+    return redirect('role-edit')
