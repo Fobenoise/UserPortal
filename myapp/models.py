@@ -2,13 +2,6 @@ from django.db import models
 from sqlparse import formatter
 
 
-class UserProfile(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-
-    def __str__(self):
-        return self.name
-
 
 class RoleProfile(models.Model):
     name = models.CharField(max_length=100)
@@ -16,6 +9,14 @@ class RoleProfile(models.Model):
     def __str__(self):
         return self.name
     
+    
+class UserProfile(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    role = models.ForeignKey(RoleProfile, null=True, blank=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.name
 # class UserRoles(models.Model):
 #     ROLE_CHOICES = [
 #         ('admin', 'Admin'),

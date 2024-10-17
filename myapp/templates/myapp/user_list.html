@@ -31,6 +31,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Role</th>                
             </tr>
         </thead>
         <tbody>
@@ -38,13 +39,22 @@
             <tr>
                 <td>{{ user.id }}</td>
                 <td>{{ user.name }}</td>
-                <td>{{ user.email }}</td>
+                <td>{{ user.email }}</td> 
+                <td>
+                    {% if user.role %}
+                        {{ user.role.name }}
+                    {% else %}
+                        Guest
+                    {% endif %}
+                </td>                             
             </tr>
-            {% empty %}
+            {% empty %}           
             <tr>
-                <td colspan="3">No users available.</td>
+                <td colspan="4">No users available.</td>
             </tr>
             {% endfor %}
+            {% comment %} {% for role in roles %}
+            <p>{{Role.name}}</p> {% endcomment %}
         </tbody>
     </table>
 </body>

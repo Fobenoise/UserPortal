@@ -37,20 +37,58 @@ def user_list(request):
 
 def user_table_view(request):
     users = UserProfile.objects.all()  # Fetch all users from the database
-    return render(request, 'myapp/user_list.html', {'users': users})
+    roles = RoleProfile.objects.all()  # Fetch all roles from the database
+    context = {
+        'users': users,
+        'roles': roles,
+    }
+    return render(request, 'myapp/user_list.html', context)
+    # return render(request, 'myapp/user_list.html','myapp/roles_list.html',\
+    #     {'users': users}, {'roles': roles})
 
+
+# def user_edit_view(request):
+#     if request.method == 'POST':
+#         # Add a new user
+#         name = request.POST.get('name')
+#         email = request.POST.get('email')
+#         
+#         if name and email:
+#             UserProfile.objects.create(name=name, email=email)
+#             return redirect('user-edit')  # Redirect to the same page after adding
+    # users = UserProfile.objects.all()
+    # return render(request, 'myapp/user_edit.html', {'users': users})
 
 def user_edit_view(request):
     if request.method == 'POST':
-        # Add a new user
+        # Handle updating or adding a user
+        user_id = request.POST.get('user_id')
         name = request.POST.get('name')
         email = request.POST.get('email')
-        if name and email:
-            UserProfile.objects.create(name=name, email=email)
-            return redirect('user-edit')  # Redirect to the same page after adding
+        role_id = request.POST.get('role')  # Get the selected role from the form
 
+        if user_id:  # If there's a user_id, we are updating an existing user
+            user = get_object_or_404(UserProfile, id=user_id)
+            user.name = name
+            user.email = email
+            if role_id:
+                user.role = RoleProfile.objects.get(id=role_id)  # Assign role if selected
+            user.save()
+        else:  # No user_id means we are creating a new user
+            if name and email:
+                role = RoleProfile.objects.get(id=role_id) if role_id else None
+                UserProfile.objects.create(name=name, email=email, role=role)
+                
+        return redirect('user-edit')  # Redirect to the same page after adding/updating
+
+    # Fetch all users and available roles
     users = UserProfile.objects.all()
-    return render(request, 'myapp/user_edit.html', {'users': users})
+    roles = RoleProfile.objects.all()
+    
+    return render(request, 'myapp/user_edit.html', {'users': users, 'roles': roles})
+
+
+
 
 @require_POST
 def delete_user_view(request, user_id):

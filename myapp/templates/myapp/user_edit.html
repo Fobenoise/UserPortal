@@ -51,6 +51,12 @@
         <input type="text" id="name" name="name" required>
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
+        <select id="role" name="role">
+            <option value="">Select a role</option>
+            {% for role in roles %}
+                <option value="{{ role.id }}">{{ role.name }}</option>
+            {% endfor %}
+        </select>
         <button type="submit" class="btn">Add User</button>
     </form>
 
@@ -61,6 +67,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Role</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -72,6 +79,15 @@
                     <td>{{ user.id }}</td>
                     <td><input type="text" name="name" value="{{ user.name }}" required></td>
                     <td><input type="email" name="email" value="{{ user.email }}" required></td>
+                    <td>
+                        <select name="role">
+                            {% for role in roles %}
+                                <option value="{{ role.id }}" {% if user.role and user.role.id == role.id %}selected{% endif %}>
+                                    {{ role.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </td>
                     <td>
                         <button type="submit" class="btn btn-edit">Save</button>
                     </td>
@@ -85,7 +101,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="4">No users available.</td>
+                <td colspan="5">No users available.</td>
             </tr>
             {% endfor %}
         </tbody>
