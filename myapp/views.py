@@ -16,7 +16,6 @@ def index_view(requests):
 
 
 
-
 @api_view(['POST'])
 def user_list(request):
     # Handle GET request (retrieve users)
@@ -43,21 +42,7 @@ def user_table_view(request):
         'roles': roles,
     }
     return render(request, 'myapp/user_list.html', context)
-    # return render(request, 'myapp/user_list.html','myapp/roles_list.html',\
-    #     {'users': users}, {'roles': roles})
 
-
-# def user_edit_view(request):
-#     if request.method == 'POST':
-#         # Add a new user
-#         name = request.POST.get('name')
-#         email = request.POST.get('email')
-#         
-#         if name and email:
-#             UserProfile.objects.create(name=name, email=email)
-#             return redirect('user-edit')  # Redirect to the same page after adding
-    # users = UserProfile.objects.all()
-    # return render(request, 'myapp/user_edit.html', {'users': users})
 
 def user_edit_view(request):
     if request.method == 'POST':
@@ -73,11 +58,12 @@ def user_edit_view(request):
             user.email = email
             if role_id:
                 user.role = RoleProfile.objects.get(id=role_id)  # Assign role if selected
-            user.save()
+            user.save(), role.save()
         else:  # No user_id means we are creating a new user
             if name and email:
                 role = RoleProfile.objects.get(id=role_id) if role_id else None
                 UserProfile.objects.create(name=name, email=email, role=role)
+                
                 
         return redirect('user-edit')  # Redirect to the same page after adding/updating
 
@@ -85,7 +71,7 @@ def user_edit_view(request):
     users = UserProfile.objects.all()
     roles = RoleProfile.objects.all()
     
-    return render(request, 'myapp/user_edit.html', {'users': users, 'roles': roles})
+    return render(request, 'myapp/user_edit.html',  {'users': users, 'roles': roles})
 
 
 
@@ -97,24 +83,24 @@ def delete_user_view(request, user_id):
     return redirect('user-edit')
 
 
-def user_edit_view(request):
-    if request.method == 'POST' and 'name' in request.POST and 'email' in request.POST:
-        # Add a new user
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        if name and email:
-            UserProfile.objects.create(name=name, email=email)
-            return redirect('user-edit')  # Redirect to the same page after adding
-
-    users = UserProfile.objects.all()
-    return render(request, 'myapp/user_edit.html', {'users': users})
-
 @require_POST
 def update_user_view(request, user_id):
     user = get_object_or_404(UserProfile, id=user_id)
+    
     user.name = request.POST.get('name')
     user.email = request.POST.get('email')
+    
+    role_id = request.POST.get('role')
+    
+    if role_id:
+        # Fetch the RoleProfile object and assign it to the user
+        user.role = get_object_or_404(RoleProfile, id=role_id)
+    else:
+        # If no role is selected, set the role to None
+        user.role = None
+    
     user.save()
+    
     return redirect('user-edit')
 
 @require_POST

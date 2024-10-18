@@ -27,15 +27,16 @@ from myapp.views import user_table_view, index_view, user_edit_view, \
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', views.home),  # Add this line to point to the home view
+    path('', index_view, name='index'),     
+    
     path('api/users/', user_list, name='user-list'),
-    path('', index_view, name='index'),  # Main page
     path('users/', user_table_view, name='user-table'),  # User list page
     path('users/edit/', user_edit_view, name='user-edit'),  # Edit user list page
     path('users/delete/<int:user_id>/', delete_user_view, name='delete-user'),  # Delete user
     path('users/update/<int:user_id>/', update_user_view, name='update-user'),  # Update user
         
     path('roles/', user_roles, name='user-roles'),
-    path('roles/edit', role_edit_view, name='role-edit'),
+    path('roles/edit/', role_edit_view, name='role-edit'),
     path('roles/delete/<int:role_id>/', delete_role_view, name='delete-role'),
     path('roles/update/<int:role_id>/', update_role_view, name='update-role'), 
 ]
