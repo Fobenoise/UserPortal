@@ -10,9 +10,9 @@ class RoleProfile(models.Model):
         return self.name    
     
 class Equipment(models.Model):
-    kind = models.CharField(max_length=100, null=True, blank=True, default="")
+    kind = models.CharField(max_length=100, null=True, blank=False, default="")
     brand = models.CharField(max_length=100)
-    modelname = models.CharField(max_length=100, null=True, blank=True, default="")
+    modelname = models.CharField(max_length=100, null=True, blank=False, default="")
     availability = \
         models.BooleanField(choices=[(True, 'Yes'), (False, 'No')], default=False)
     
