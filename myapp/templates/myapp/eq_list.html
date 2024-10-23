@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Equipment List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Brand</th>
+                <th>Modelname</th>
+                <th>Availability</th>                
+            </tr>
+        </thead>
+        <tbody>
+            {% for eqitem in eqitems %}
+            <tr>
+                <td>{{ eqitem.id }}</td>
+                <td>{{ eqitem.type }}</td>
+                <td>{{ eqitem.brand }}</td>
+                <td>{{ eqitem.model }}</td> 
+                <td>
+                    {% if eqitem.role %}
+                        {{ eqitem.role.name }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>                             
+            </tr>
+            {% empty %}           
+            <tr>
+                <td colspan="4">No eqitems available.</td>
+            </tr>
+            {% endfor %}
+            {% comment %} {% for role in roles %}
+            <p>{{Role.name}}</p> {% endcomment %}
+        </tbody>
+    </table>
+</body>
+</html>

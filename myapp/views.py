@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserProfileSerializer
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import UserProfile, RoleProfile
+from .models import UserProfile, RoleProfile, Equipment
 from django.views.decorators.http import require_POST
 
 
@@ -57,11 +57,15 @@ def user_edit_view(request):
             user.name = name
             user.email = email
             if role_id:
-                user.role = RoleProfile.objects.get(id=role_id)  # Assign role if selected
-            user.save(), role.save()
+                user.role = get_object_or_404(RoleProfile, id=role_id) 
+            else:# Assign role if selected
+                user.role = get_object_or_404(RoleProfile, name="Guest")                
+                user.save()
         else:  # No user_id means we are creating a new user
             if name and email:
-                role = RoleProfile.objects.get(id=role_id) if role_id else None
+                role = get_object_or_404(RoleProfile, name="Guest") \
+                    if not role_id else RoleProfile.objects.get(id=role_id)
+                    
                 UserProfile.objects.create(name=name, email=email, role=role)
                 
                 

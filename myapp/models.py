@@ -7,29 +7,30 @@ class RoleProfile(models.Model):
     name = models.CharField(max_length=100)
             
     def __str__(self):
-        return self.name
+        return self.name    
     
+class Equipment(models.Model):
+    kind = models.CharField(max_length=100, null=True, blank=True, default="")
+    brand = models.CharField(max_length=100)
+    modelname = models.CharField(max_length=100, null=True, blank=True, default="")
+    availability = \
+        models.BooleanField(choices=[(True, 'Yes'), (False, 'No')], default=False)
+    
+    def __str__(self):
+        return self.kind + " | " + self.brand + " | " + self.modelname
     
 class UserProfile(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    role = models.ForeignKey(RoleProfile, null=True, blank=True, on_delete=models.SET_NULL)
+    
+    role = models.ForeignKey(RoleProfile, null=True, \
+        blank=True, on_delete=models.SET_NULL)
+    
+    eqitem = models.ForeignKey(Equipment, null=True, \
+        blank=True, default="", on_delete=models.SET_DEFAULT)
 
     def __str__(self):
-        return self.name
-# class UserRoles(models.Model):
-#     ROLE_CHOICES = [
-#         ('admin', 'Admin'),
-#         ('standard', 'Standard User'),
-#         ('guest', 'Guest'),
-#     ]
+        return self.name + " | " + (self.email)
+    
 
-#     name = models.CharField(max_length=50, choices=ROLE_CHOICES, unique=True)
-
-#     def __str__(self):
-#         return self.get_name_display()
-
-#     class Meta:
-#         # Specify that the model belongs to the 'roles' app and set the table name
-#         db_table = 'role'
-#         app_label = 'roles
+    
