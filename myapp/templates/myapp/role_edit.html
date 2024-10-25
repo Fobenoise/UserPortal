@@ -3,17 +3,16 @@
 <html lan
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
 
     <title>{% block title %}Edit Role List{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-
     <style>
         table {
-            width: 100%;
+            width: 80%;
             border-collapse: collapse;
+            margin: auto;
         }
         table, th, td {
             border: 1px solid black;
@@ -52,54 +51,59 @@
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <div class="container">
+        <h1 class="text-center my-4">Edit Role List
+            <a href="{% url 'home' %}" class="btn btn-warning ms-3">Home</a>
+        </h1>
 
-    <div>
-        <a href="{% url 'home' %}" class="btn btn-warning">Home</a>
-    </div>
-    <h1>Edit Role List</h1>
-
-    <!-- Form to Add New User -->
-    <form method="POST" action="{% url 'role-edit' %}">
-        {% csrf_token %}
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>        
-        <button type="submit" class="btn">Add Role</button>
-    </form>
-
-    <!-- Display List of Users with Edit and Delete buttons -->
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Role</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for role in roles %}
-            <tr>
-                <form method="POST" action="{% url 'update-role' role.id %}">
+        <!-- Centered Form to Add New Role -->
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="POST" action="{% url 'role-edit' %}" class="border p-4 rounded">
                     {% csrf_token %}
-                    <td>{{ role.id }}</td>
-                    <td><input type="text" name="name" value="{{ role.name }}" required></td>
-                    <td>
-                        <button type="submit" class="btn btn-edit">Save</button>
-                    </td>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Role Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Add Role</button>
                 </form>
-                <td>
-                    <form method="POST" action="{% url 'delete-role' role.id %}">
+            </div>
+        </div>
+
+        <!-- Display List of Users with Edit and Delete buttons -->
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for role in roles %}
+                <tr>
+                    <form method="POST" action="{% url 'update-role' role.id %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <td>{{ role.id }}</td>
+                        <td><input type="text" name="name" value="{{ role.name }}" class="form-control" required></td>
+                        <td>
+                            <button type="submit" class="btn btn-edit">Save</button>
+                            <form method="POST" action="{% url 'delete-role' role.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
                     </form>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4">No role available.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">No role available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     
 </body>
 </html>
