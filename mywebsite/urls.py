@@ -29,6 +29,8 @@ urlpatterns = [
     # path('', views.home),  # Add this line to point to the home view
     path('', index_view, name='index'),     
     
+    path('', index_view, name='home'),
+    
     path('api/users/', user_list, name='user-list'),
     path('users/', user_table_view, name='user-table'),  # User list page
     path('users/edit/', user_edit_view, name='user-edit'),  # Edit user list page
