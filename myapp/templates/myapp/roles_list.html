@@ -1,6 +1,8 @@
+{% extends 'myapp/base.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+{% block content %}
 <head>
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <meta charset="UTF-8">
@@ -26,9 +28,7 @@
         }
     </style>
 </head>
-<body>
-    {% block content %}{% endblock content %}
-    
+<body>    
     <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     
@@ -61,4 +61,5 @@
         </tbody>
     </table>
 </body>
+{% endblock content %}
 </html>
